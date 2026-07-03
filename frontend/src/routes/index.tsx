@@ -5,6 +5,7 @@ import { DashboardLayout } from '@/layouts/dashboard-layout';
 import { AuthLayout } from '@/layouts/auth-layout';
 import { ErrorBoundary } from '@/components/shared/error-boundary';
 import { Loader2 } from 'lucide-react';
+import DashboardPage from '@/pages/dashboard';
 
 function PageLoader() {
   return (
@@ -48,11 +49,19 @@ const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            element: lazyLoadPage(() => import('@/pages/dashboard')),
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <DashboardPage />
+              </Suspense>
+            ),
           },
           {
             path: 'dashboard',
-            element: lazyLoadPage(() => import('@/pages/dashboard')),
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <DashboardPage />
+              </Suspense>
+            ),
           },
           {
             path: 'bookings',

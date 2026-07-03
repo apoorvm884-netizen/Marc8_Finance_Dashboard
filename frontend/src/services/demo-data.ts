@@ -614,7 +614,19 @@ function generateFleetDashboard() {
   };
 }
 
+const cache = new Map<string, unknown>();
 const demoStore: Record<string, unknown> = {};
+
+function cached<T>(key: string, fn: () => T): T {
+  if (!cache.has(key)) {
+    cache.set(key, fn());
+  }
+  return cache.get(key) as T;
+}
+
+export function clearDemoCache() {
+  cache.clear();
+}
 
 export function getDemoData(url: string, method: string, body?: unknown): unknown {
   if (url.includes('/auth/login')) {
@@ -627,104 +639,105 @@ export function getDemoData(url: string, method: string, body?: unknown): unknow
 
   if (url.includes('/fleet-dashboard') || (url.includes('/dashboard') && !url.includes('/detail') && !url.includes('/owner'))) {
     if (url.includes('fleet')) {
-      return { data: generateFleetDashboard() };
+      return { data: cached('fleet-dashboard', () => generateFleetDashboard()) };
     }
-    return { data: generateDashboardData() };
+    return { data: cached('dashboard', () => generateDashboardData()) };
   }
 
   if (url.includes('/settlements/dashboard') || url.includes('/settlement-dashboard')) {
-    return { data: generateSettlementDashboard() };
+    return { data: cached('settlement-dashboard', () => generateSettlementDashboard()) };
   }
 
   if (url.includes('/settlements') && !url.includes('/dashboard') && url.includes('/detail')) {
-    const s = generateSettlements();
+    const s = cached('settlements-all', () => generateSettlements()) as ReturnType<typeof generateSettlements>;
     return { data: s[0] };
   }
 
   if (url.includes('/settlements')) {
-    const data = generateSettlements();
+    const all = cached('settlements-all', () => generateSettlements()) as ReturnType<typeof generateSettlements>;
     const page = url.includes('page=') ? parseInt(url.match(/page=(\d+)/)?.[1] || '1') : 1;
     const limit = url.includes('limit=') ? parseInt(url.match(/limit=(\d+)/)?.[1] || '10') : 10;
-    return { data: data.slice((page - 1) * limit, page * limit), total: data.length, page, limit, totalPages: Math.ceil(data.length / limit) };
+    return { data: all.slice((page - 1) * limit, page * limit), total: all.length, page, limit, totalPages: Math.ceil(all.length / limit) };
   }
 
   if (url.includes('/vehicles') && !url.includes('/vehicle-owner') && !url.includes('/vehicle-lifecycle') && !url.includes('/vehicle-financials')) {
-    const data = generateVehicles();
+    const data = cached('vehicles', () => generateVehicles()) as ReturnType<typeof generateVehicles>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/vehicle-owners') || url.includes('/vehicle_owners')) {
-    const data = generateVehicleOwners();
+    const data = cached('vehicle-owners', () => generateVehicleOwners()) as ReturnType<typeof generateVehicleOwners>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/vehicle-financials')) {
-    return { data: { vehicle: generateVehicles()[0], metrics: { revenue: formatCurrency(850000), expense: formatCurrency(320000), profit: formatCurrency(530000), margin: 62.4 } } };
+    return { data: { vehicle: (cached('vehicles', () => generateVehicles()) as ReturnType<typeof generateVehicles>)[0], metrics: { revenue: 850000, expense: 320000, profit: 530000, margin: 62.4 } } };
   }
 
   if (url.includes('/bookings')) {
-    const data = generateBookings();
+    const data = cached('bookings', () => generateBookings()) as ReturnType<typeof generateBookings>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: Math.ceil(data.length / 10) };
   }
 
   if (url.includes('/expenses')) {
-    const data = generateExpenses();
+    const data = cached('expenses', () => generateExpenses()) as ReturnType<typeof generateExpenses>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/journal')) {
-    const data = generateJournal();
+    const data = cached('journal', () => generateJournal()) as ReturnType<typeof generateJournal>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/outstandings')) {
-    const data = generateOutstandings();
+    const data = cached('outstandings', () => generateOutstandings()) as ReturnType<typeof generateOutstandings>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/maintenance')) {
-    const data = generateMaintenance();
+    const data = cached('maintenance', () => generateMaintenance()) as ReturnType<typeof generateMaintenance>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/vendors')) {
-    const data = generateVendors();
+    const data = cached('vendors', () => generateVendors()) as ReturnType<typeof generateVendors>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/service-schedules') || url.includes('/scheduler')) {
-    const data = generateSchedules();
+    const data = cached('schedules', () => generateSchedules()) as ReturnType<typeof generateSchedules>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/notifications')) {
-    const data = generateNotifications();
+    const data = cached('notifications', () => generateNotifications()) as ReturnType<typeof generateNotifications>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/analytics')) {
-    return { data: generateAnalytics() };
+    return { data: cached('analytics', () => generateAnalytics()) };
   }
 
   if (url.includes('/reports')) {
-    const data = generateReports();
+    const data = cached('reports', () => generateReports()) as ReturnType<typeof generateReports>;
     return { data, total: data.length, page: 1, limit: 10, totalPages: 1 };
   }
 
   if (url.includes('/masters') || url.includes('/master-data')) {
-    return { data: generateMasterData() };
+    return { data: cached('masters', () => generateMasterData()) };
   }
 
   if (url.includes('/settings')) {
-    return { data: generateSettings() };
+    return { data: cached('settings', () => generateSettings()) };
   }
 
   if (url.includes('/activity')) {
-    return { data: generateNotifications().slice(0, 5) };
+    const notifications = cached('notifications', () => generateNotifications()) as ReturnType<typeof generateNotifications>;
+    return { data: notifications.slice(0, 5) };
   }
 
   if (url.includes('/tasks')) {
-    return { data: Array.from({ length: 5 }, (_, i) => ({
+    return { data: cached('tasks', () => Array.from({ length: 5 }, (_, i) => ({
       id: `t${i + 1}`,
       title: pick(['Verify settlement amounts', 'Update vehicle documents', 'Review expense report', 'Schedule maintenance', 'Approve pending payments', 'Reconcile platform earnings']),
       status: pick(['pending', 'in_progress', 'completed']),
@@ -732,7 +745,7 @@ export function getDemoData(url: string, method: string, body?: unknown): unknow
       assigned_to: pick(owners),
       due_date: daysAgo(randomBetween(-5, 14)),
       created_at: daysAgo(randomBetween(10, 30)),
-    })) };
+    }))) };
   }
 
   if (url.includes('/approvals') || url.includes('/workflows')) {
