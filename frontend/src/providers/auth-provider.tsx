@@ -19,13 +19,55 @@ interface AuthContextValue extends AuthState {
   updateProfile: (data: UpdateProfileData) => Promise<void>;
 }
 
-const initialState: AuthState = {
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  isLoading: true,
-  isFirstLogin: false,
-};
+function createGuestUser(): User {
+  return {
+    id: 'guest-001',
+    username: 'guest',
+    email: 'guest@demo.com',
+    first_name: 'Demo',
+    last_name: 'User',
+    role: 'super_admin',
+    is_active: true,
+    is_first_login: false,
+    last_login_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+}
+
+function getInitialState(): AuthState {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.AUTH);
+    if (stored) {
+      const parsed = JSON.parse(stored) as { user: User; token: string };
+      if (parsed.token === 'demo-token-guest-access') {
+        return {
+          user: createGuestUser(),
+          token: parsed.token,
+          isAuthenticated: true,
+          isLoading: false,
+          isFirstLogin: false,
+        };
+      }
+      return {
+        user: null,
+        token: parsed.token,
+        isAuthenticated: false,
+        isLoading: true,
+        isFirstLogin: false,
+      };
+    }
+  } catch {
+    localStorage.removeItem(STORAGE_KEYS.AUTH);
+  }
+  return {
+    user: null,
+    token: null,
+    isAuthenticated: false,
+    isLoading: false,
+    isFirstLogin: false,
+  };
+}
 
 type AuthAction =
   | { type: 'AUTH_START' }
@@ -103,19 +145,13 @@ function clearStoredAuth(): void {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, undefined, getInitialState);
 
   useEffect(() => {
+    if (state.token === 'demo-token-guest-access') return;
+
     const stored = getStoredAuth();
-    if (stored) {
-      if (stored.token === 'demo-token-guest-access') {
-        const { demoUser } = await_import_demo();
-        dispatch({
-          type: 'AUTH_LOADED',
-          payload: { user: demoUser, token: stored.token, isFirstLogin: false },
-        });
-        return;
-      }
+    if (stored && stored.token !== 'demo-token-guest-access') {
       authService
         .getProfile()
         .then((user) => {
@@ -129,15 +165,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           clearStoredAuth();
           dispatch({ type: 'AUTH_FAILURE' });
         });
-    } else {
-      dispatch({ type: 'AUTH_FAILURE' });
     }
-  }, []);
-
-  function await_import_demo() {
-    const { demoUser } = { demoUser: { id: 'guest-001', username: 'guest', email: 'guest@demo.com', first_name: 'Demo', last_name: 'User', role: 'super_admin', is_active: true, is_first_login: false, last_login_at: new Date().toISOString(), created_at: new Date().toISOString(), updated_at: new Date().toISOString() } };
-    return { demoUser };
-  }
+  }, [state.token]);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
     dispatch({ type: 'AUTH_START' });
