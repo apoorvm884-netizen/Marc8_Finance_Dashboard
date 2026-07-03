@@ -1,6 +1,7 @@
 import { appConfig } from '@/config';
 import { STORAGE_KEYS } from '@/config/constants';
 import { parseError } from '@/lib/utils';
+import { getDemoData } from './demo-data';
 
 export class ApiError extends Error {
   public status: number;
@@ -79,17 +80,20 @@ async function request<T>(url: string, config: RequestConfig = {}): Promise<T> {
     skipAuth = false,
   } = config;
 
+  const token = getToken();
+  if (token === 'demo-token-guest-access') {
+    const fetchUrl = buildUrl(url, params);
+    return getDemoData(fetchUrl, method, body) as T;
+  }
+
   const finalHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     ...headers,
   };
 
-  if (!skipAuth) {
-    const token = getToken();
-    if (token) {
-      finalHeaders['Authorization'] = `Bearer ${token}`;
-    }
+  if (!skipAuth && token) {
+    finalHeaders['Authorization'] = `Bearer ${token}`;
   }
 
   const fetchUrl = buildUrl(url, params);

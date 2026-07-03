@@ -14,6 +14,7 @@ import { parseError } from '@/lib/utils';
 interface AuthContextValue extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
+  guestLogin: () => Promise<void>;
   changePassword: (data: ChangePasswordData) => Promise<void>;
   updateProfile: (data: UpdateProfileData) => Promise<void>;
 }
@@ -107,6 +108,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = getStoredAuth();
     if (stored) {
+      if (stored.token === 'demo-token-guest-access') {
+        const { demoUser } = await_import_demo();
+        dispatch({
+          type: 'AUTH_LOADED',
+          payload: { user: demoUser, token: stored.token, isFirstLogin: false },
+        });
+        return;
+      }
       authService
         .getProfile()
         .then((user) => {
@@ -125,6 +134,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  function await_import_demo() {
+    const { demoUser } = { demoUser: { id: 'guest-001', username: 'guest', email: 'guest@demo.com', first_name: 'Demo', last_name: 'User', role: 'super_admin', is_active: true, is_first_login: false, last_login_at: new Date().toISOString(), created_at: new Date().toISOString(), updated_at: new Date().toISOString() } };
+    return { demoUser };
+  }
+
   const login = useCallback(async (credentials: LoginCredentials) => {
     dispatch({ type: 'AUTH_START' });
     try {
@@ -135,6 +149,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'AUTH_FAILURE' });
       throw new Error(parseError(error));
     }
+  }, []);
+
+  const guestLogin = useCallback(async () => {
+    const { demoUser } = await import('@/services/demo-data');
+    const mockToken = 'demo-token-guest-access';
+    setStoredAuth(demoUser, mockToken);
+    dispatch({
+      type: 'AUTH_SUCCESS',
+      payload: { user: demoUser, token: mockToken, isFirstLogin: false },
+    });
   }, []);
 
   const logout = useCallback(async () => {
@@ -174,10 +198,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       ...state,
       login,
       logout,
+      guestLogin,
       changePassword,
       updateProfile,
     }),
-    [state, login, logout, changePassword, updateProfile]
+    [state, login, logout, guestLogin, changePassword, updateProfile]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

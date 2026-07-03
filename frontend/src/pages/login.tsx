@@ -13,9 +13,10 @@ import { Input } from '@/components/ui/input';
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
+  const { login, guestLogin } = useAuth();
   const { notify } = useNotification();
   const [showPassword, setShowPassword] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
@@ -35,6 +36,19 @@ export default function LoginPage() {
       navigate(from, { replace: true });
     } catch (error) {
       notify.error('Login failed', error instanceof Error ? error.message : 'Invalid credentials');
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    try {
+      setIsGuestLoading(true);
+      await guestLogin();
+      notify.success('Welcome!', 'You are now in demo mode. All data is for demonstration purposes.');
+      navigate(from, { replace: true });
+    } catch (error) {
+      notify.error('Failed to start demo mode', 'Please try again');
+    } finally {
+      setIsGuestLoading(false);
     }
   };
 
@@ -102,6 +116,25 @@ export default function LoginPage() {
           className="w-full"
         >
           {isSubmitting ? 'Signing in...' : 'Sign in'}
+        </Button>
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-surface px-2 text-secondary-400">or</span>
+          </div>
+        </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleGuestLogin}
+          loading={isGuestLoading}
+          className="w-full border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-500/50"
+        >
+          {isGuestLoading ? 'Loading demo...' : 'Continue as Guest'}
         </Button>
       </form>
     </motion.div>
