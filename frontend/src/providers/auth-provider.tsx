@@ -11,6 +11,13 @@ import { STORAGE_KEYS } from '@/config/constants';
 import { authService } from '@/services/auth.service';
 import { parseError } from '@/lib/utils';
 
+// TEMPORARY DEVELOPER DEMO LOGIN — remove when backend is integrated
+const DEV_ACCOUNT = {
+  username: 'developer@marc8.local',
+  password: 'Marc8@Demo123',
+};
+// END TEMPORARY DEVELOPER DEMO LOGIN
+
 interface AuthContextValue extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
@@ -169,6 +176,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [state.token]);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
+    // TEMPORARY DEVELOPER DEMO LOGIN — remove when backend is integrated
+    if (
+      credentials.username === DEV_ACCOUNT.username &&
+      credentials.password === DEV_ACCOUNT.password
+    ) {
+      const { demoUser } = await import('@/services/demo-data');
+      const mockToken = 'demo-token-guest-access';
+      setStoredAuth(demoUser, mockToken);
+      dispatch({
+        type: 'AUTH_SUCCESS',
+        payload: { user: demoUser, token: mockToken, isFirstLogin: false },
+      });
+      return;
+    }
+    // END TEMPORARY DEVELOPER DEMO LOGIN
+
     dispatch({ type: 'AUTH_START' });
     try {
       const { user, token, isFirstLogin } = await authService.login(credentials);

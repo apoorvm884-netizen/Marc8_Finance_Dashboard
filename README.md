@@ -1,213 +1,248 @@
-# Fleet Financial Dashboard
+# Marc8 Fleet Financial Dashboard
 
-A production-grade fleet financial management system built with React 19, Node.js/Express, TypeScript, and PostgreSQL. Provides comprehensive booking, expense, journal, and fleet management with real-time financial analytics, reporting, and role-based access control.
+A production-grade fleet financial management system. Manage bookings, expenses, journal entries, vehicles, vendors, settlements, and more — with real-time analytics, reporting, and role-based access.
 
-## Architecture
+## Quick Start (No Backend Required)
 
+```bash
+# 1. Clone
+git clone https://github.com/apoorvm884-netizen/Marc8_Finance_Dashboard.git
+cd Marc8_Finance_Dashboard
+
+# 2. Install frontend dependencies
+cd frontend && npm install
+
+# 3. Start the frontend
+npm run dev
 ```
-┌─────────────────────────────────────────────────┐
-│                  Frontend (React 19)             │
-│  ┌──────────┬──────────┬──────────┬──────────┐  │
-│  │  Auth   │ Dashboard│ Analytics│  Reports │  │
-│  │  Pages  │  Widgets │  Charts  │  Export   │  │
-│  ├──────────┼──────────┼──────────┼──────────┤  │
-│  │  Bookings │ Expenses│ Journal  │ Settings │  │
-│  ├──────────┴──────────┴──────────┴──────────┤  │
-│  │         Shared UI + Layout Components       │  │
-│  └─────────────────────────────────────────────┘  │
-│                        │ REST API                  │
-├────────────────────────┼─────────────────────────┤
-│           Backend (Express + TypeScript)           │
-│  ┌──────────┐ ┌──────────────┐ ┌──────────────┐  │
-│  │  Routes  │ │ Controllers  │ │  Validators   │  │
-│  ├──────────┤ ├──────────────┤ ├──────────────┤  │
-│  │ Services │ │ Financial    │ │  Middleware   │  │
-│  │          │ │ Engine       │ │  (Auth/RBAC)  │  │
-│  └──────────┘ └──────────────┘ └──────────────┘  │
-│                        │ Knex                      │
-├────────────────────────┼─────────────────────────┤
-│              PostgreSQL Database                   │
-│  14 Migrations · 5 Enums · 15+ Tables             │
-└───────────────────────────────────────────────────┘
-```
+
+Open `http://localhost:3000` and login with:
+
+| Username | Password |
+|---|---|
+| `developer@marc8.local` | `Marc8@Demo123` |
+
+This uses built-in demo data — no database or backend server needed. All pages, charts, and reports work immediately.
+
+## Features
+
+- **Dashboard** — Real-time fleet financial KPIs, revenue trends, expense breakdowns
+- **Bookings** — Full booking lifecycle with platform integration
+- **Expenses** — Categorized expense tracking with receipt management
+- **Journal** — Double-entry accounting with auto-balancing
+- **Settlements** — Platform-wise settlement reconciliation
+- **Vehicles** — Complete vehicle lifecycle management
+- **Vendors** — Vendor management with payment tracking
+- **Vehicle Owners** — Owner management with financial settlements
+- **Maintenance** — Service scheduling with fleet health monitoring
+- **Reports** — Exportable reports (Excel/PDF) with filters
+- **Analytics** — Interactive charts, trend analysis, financial intelligence
+- **Outstanding** — Payment tracking with DSO/DPO analytics
+- **Automation** — Rule-based workflow automation
+- **Notifications** — In-app notifications with priority queue
+- **Master Data** — Configurable dropdowns, categories, and reference data
 
 ## Technology Stack
 
-### Frontend
-- **React 19** with TypeScript
-- **Vite 6** build tool
-- **Tailwind CSS 4** with dark finance theme
-- **Shadcn UI** component primitives
-- **React Router 7** with lazy loading
-- **TanStack Table** for data tables
-- **React Hook Form + Zod** for form validation
-- **Framer Motion** for animations
-- **Recharts** for charts
-- **date-fns** for date handling
-- **xlsx** for Excel export
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 19, TypeScript, Vite 8, Tailwind CSS 4 |
+| **Components** | Shadcn UI (Radix primitives), Framer Motion, Recharts |
+| **Forms** | React Hook Form + Zod |
+| **Tables** | TanStack Table |
+| **Backend** | Node.js, Express, TypeScript |
+| **Database** | PostgreSQL via Knex.js |
+| **Auth** | JWT with 5 roles (SUPER_ADMIN, ADMIN, MANAGER, OPERATOR, VIEWER) |
+| **Container** | Docker + Docker Compose |
 
-### Backend
-- **Node.js** with **Express** and **TypeScript**
-- **Knex.js** query builder
-- **PostgreSQL** database
-- **JWT** authentication with RBAC (5 roles)
-- **Zod** request validation
-- **xlsx** for Excel export
-- **Winston** logging
-- **express-rate-limit** for rate limiting
-
-## Folder Structure
+## Repository Structure
 
 ```
-Fleet Financial Dashboard/
-├── backend/
-│   ├── src/                    # TypeScript source
-│   │   ├── config/             # DB, env, constants
-│   │   ├── controllers/        # Route handlers
-│   │   ├── middleware/         # Auth, RBAC, validation, error handling
-│   │   ├── routes/            # Express route definitions
-│   │   ├── services/          # Business logic
-│   │   │   └── financial-engine/  # Core financial calculations
-│   │   ├── types/             # TypeScript interfaces
-│   │   ├── utils/             # Helpers, errors, logger, response
-│   │   └── validators/        # Zod schemas
-│   ├── knexfile.ts
-│   └── tsconfig.json
-├── frontend/
+Marc8_Finance_Dashboard/
+├── frontend/          # React SPA — main development folder
 │   ├── src/
-│   │   ├── app/               # App entry
-│   │   ├── components/        # UI components
-│   │   │   ├── shared/        # Reusable shared components
-│   │   │   ├── ui/            # Shadcn primitives
-│   │   │   ├── dashboard/     # Dashboard widgets
-│   │   │   ├── bookings/      # Booking components
-│   │   │   ├── expenses/      # Expense components
-│   │   │   ├── journal/       # Journal components
-│   │   │   ├── reports/       # Report components
-│   │   │   ├── vehicles/      # Vehicle components
-│   │   │   ├── master/        # Master data components
-│   │   │   └── layout/        # Navbar, sidebar, etc.
-│   │   ├── config/            # Navigation, constants
-│   │   ├── hooks/             # Custom React hooks
-│   │   ├── layouts/           # Auth/dashboard layouts
-│   │   ├── lib/               # Utility functions
-│   │   ├── pages/             # Route pages
-│   │   ├── providers/         # Context providers
-│   │   ├── routes/            # Route configuration
-│   │   ├── services/          # API client + services
-│   │   ├── stores/            # Zustand stores
-│   │   ├── types/             # TypeScript interfaces
-│   │   └── validation/        # Zod schemas (reference)
-│   ├── vite.config.ts
-│   └── tsconfig.json
-├── database/
-│   ├── migrations/            # 14 Knex migrations
-│   ├── seeds/                 # Admin + master data seeds
-│   └── init.sql              # Database initialization
+│   │   ├── app/       # App entry, providers
+│   │   ├── components/# UI components (shared, ui, dashboard, layout, etc.)
+│   │   ├── config/    # App configuration, constants, navigation
+│   │   ├── hooks/     # Custom React hooks
+│   │   ├── layouts/   # Auth and dashboard layout shells
+│   │   ├── lib/       # Utility functions
+│   │   ├── pages/     # Route-level page components
+│   │   ├── providers/ # React context providers (auth, theme, etc.)
+│   │   ├── routes/    # Route definitions + protected route wrapper
+│   │   ├── services/  # API client + service modules
+│   │   ├── stores/    # Zustand state stores
+│   │   ├── types/     # TypeScript interfaces
+│   │   └── validation/# Zod validation schemas
+│   └── __tests__/     # Frontend tests (Vitest)
+│
+├── backend/           # Express API — deploy separately
+│   ├── src/
+│   │   ├── config/    # DB, env configuration
+│   │   ├── controllers/# Route handlers
+│   │   ├── middleware/ # Auth, RBAC, validation, error handling
+│   │   ├── routes/    # Express route definitions
+│   │   ├── services/  # Business logic
+│   │   │   └── financial-engine/  # Core financial calculations
+│   │   ├── types/     # TypeScript interfaces
+│   │   ├── utils/     # Helpers, errors, logger
+│   │   └── validators/# Zod schemas
+│   ├── database/      # Knex migrations + seeds
+│   └── __tests__/     # Backend tests (Vitest + Supertest)
+│
+├── releases/          # HTML release packages (static handoff)
+├── Marc8_HTML/        # HTML working copy
+├── __tests__/         # Shared test documentation
+├── docker-compose.yml # Full-stack deployment
+└── docs and reports   # Engineering docs, certification reports
 ```
 
-## Installation
+## Running Locally
 
-### Prerequisites
-- Node.js 20+
-- PostgreSQL 15+
-- npm 9+
-
-### Setup
+### Frontend Only (No Backend Needed)
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd fleet-financial-dashboard
-
-# Install dependencies
-cd backend && npm install
-cd ../frontend && npm install
-
-# Environment variables
-cp backend/.env.example backend/.env
-# Edit .env with your database credentials
-
-# Create database
-createdb fleet_financial_dashboard
-
-# Run migrations
-cd ../backend
-npx knex migrate:latest
-
-# Seed data
-npx knex seed:run
-
-# Start development servers
-# Terminal 1: Backend
-cd backend && npm run dev
-
-# Terminal 2: Frontend
-cd frontend && npm run dev
+cd frontend
+npm install
+npm run dev
 ```
+
+Login: `developer@marc8.local` / `Marc8@Demo123`
+
+### Full Stack (With Backend)
+
+**Prerequisites:** Node.js 20+, PostgreSQL 15+, npm 9+
+
+```bash
+# Terminal 1 — Backend
+cd backend
+cp .env.example .env      # Edit with your database credentials
+npm install
+npx knex migrate:latest
+npx knex seed:run
+npm run dev
+
+# Terminal 2 — Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs on `http://localhost:3000`, backend on `http://localhost:5000`.
 
 ## Environment Variables
 
+### Backend (`backend/.env`)
+
 | Variable | Description | Default |
-|----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/fleet_financial_dashboard` |
-| `JWT_SECRET` | JWT signing secret | (required) |
-| `JWT_EXPIRES_IN` | JWT expiration | `8h` |
+|---|---|---|
 | `PORT` | Backend server port | `5000` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/fleet_dashboard` |
+| `JWT_SECRET` | JWT signing secret | (required) |
+| `JWT_EXPIRES_IN` | Token expiration | `24h` |
+| `CORS_ORIGIN` | Allowed CORS origin | `http://localhost:3000` |
 | `NODE_ENV` | Environment | `development` |
-| `CORS_ORIGIN` | Allowed CORS origin | `http://localhost:5173` |
-| `FRONTEND_URL` | Frontend URL | `http://localhost:5173` |
+| `RATE_LIMIT_WINDOW` | Rate limit window (minutes) | `15` |
+| `RATE_LIMIT_MAX` | Max requests per window | `100` |
+| `LOG_LEVEL` | Logging level | `debug` |
 
-## Build
+### Frontend (`frontend/.env`)
+
+| Variable | Description | Default |
+|---|---|---|
+| `VITE_API_URL` | Backend API URL (production) | `/api/v1` |
+
+## Build Commands
 
 ```bash
-# Backend
-cd backend && npm run build
-
 # Frontend
-cd frontend && npm run build
+cd frontend && npm run build     # Production build → frontend/dist/
+
+# Backend
+cd backend && npm run build      # TypeScript compile → backend/dist/
+cd backend && npm start          # Run compiled backend
 ```
 
-## Default Admin Credentials
-
-| Field | Value |
-|-------|-------|
-| Username | `admin` |
-| Password | `Admin@123` |
-| Role | `SUPER_ADMIN` |
-
-**🔴 Change password on first login. Update in production deployment.**
-
-## Database Migrations
+## Test Commands
 
 ```bash
-# Run all migrations
-npx knex migrate:latest
+# Frontend tests
+cd frontend && npm test          # 7 tests (Components)
+cd frontend && npm run test:watch
+cd frontend && npm run test:coverage
 
-# Rollback last migration
-npx knex migrate:down
-
-# Rollback all migrations
-npx knex migrate:rollback
-
-# Create new migration
-npx knex migrate:make migration_name
+# Backend tests
+cd backend && npm test           # 32 tests (Unit + Integration)
+cd backend && npm run test:watch
+cd backend && npm run test:coverage
 ```
 
-## Key Design Decisions
+## Deployment
 
-- **Financial Engine**: All financial calculations (revenue, expense, profit, cash flow, fleet analytics) are centralized in `backend/src/services/financial-engine/`. No React component, controller, or service outside this engine may directly calculate financial values.
-- **Soft Delete**: All primary entities support soft delete with `deleted_at` and `deleted_by` columns. Restore operations preserve data integrity.
-- **RBAC**: Five roles (SUPER_ADMIN, ADMIN, MANAGER, OPERATOR, VIEWER) with granular permission checks per endpoint.
-- **Master Data**: Configurable dropdowns (platforms, expense categories, payment modes, ledger categories, booking/payment/expense statuses) load dynamically from the Master Data Engine.
-- **Net Revenue Formula**: `Gross Fare + Doorstep Charges - Platform Commission`. Managed exclusively by the Financial Engine.
+| Platform | Frontend | Backend | Notes |
+|---|---|---|---|
+| **GitHub Pages** | ✅ | ❌ | Static frontend only |
+| **Vercel** | ✅ | ❌ | `frontend/vercel.json` configured |
+| **Netlify** | ✅ | ❌ | SPA with redirects |
+| **Render** | ✅ | ✅ | Backend + PostgreSQL |
+| **Railway** | ✅ | ✅ | Backend + PostgreSQL |
+| **Docker** | ✅ | ✅ | `docker-compose.yml` for full stack |
 
-## Known Limitations
+### Deploy to Vercel
 
-- Email/SMS notifications are not yet implemented (in-app notifications only)
-- Dark theme only (light theme toggling is not supported)
-- Real-time WebSocket updates are not implemented (30-second polling for notifications)
-- Mobile responsive but not optimized for small screens
-- Multi-tenancy is not supported
-- No CI/CD pipeline configured
-- `deleted_by` tracking missing on `reminders` and `master_values` tables (requires migration)
+```bash
+cd frontend
+npx vercel --prod
+```
+
+Set `VITE_API_URL` to your backend URL in Vercel environment variables.
+
+### Deploy with Docker
+
+```bash
+docker-compose up --build
+```
+
+Requires `JWT_SECRET` environment variable set.
+
+## Developer Demo Login
+
+When running the frontend without a backend, use these credentials:
+
+- **Username:** `developer@marc8.local`
+- **Password:** `Marc8@Demo123`
+
+This bypasses the backend API and loads the app with built-in demo data. All features, charts, and reports work with realistic sample data. To remove this temporary login later, see `frontend/src/providers/auth-provider.tsx` and remove the `TEMPORARY DEVELOPER DEMO LOGIN` blocks.
+
+## Backend Integration
+
+To connect a real backend:
+
+1. Deploy the backend (see `backend/` and `docker-compose.yml`)
+2. Set `VITE_API_URL` to the backend URL (e.g., `https://api.yourdomain.com/api/v1`)
+3. Rebuild the frontend
+4. Remove the temporary dev login from `frontend/src/providers/auth-provider.tsx`
+
+## FAQ
+
+**Q: Do I need a database to run the app?**
+A: No. The Developer Demo Login loads the app with built-in mock data.
+
+**Q: Which folder should I work in?**
+A: `frontend/` for UI work, `backend/` for API work.
+
+**Q: Which folder should I NOT modify?**
+A: `releases/` (HTML handoff packages), `Marc8_HTML/` (HTML working copy), and certification/audit reports at root.
+
+**Q: How do I add a new page?**
+A: Add a component in `frontend/src/pages/`, add a route in `frontend/src/routes/`, and add a nav link in `frontend/src/config/navigation.ts`.
+
+**Q: How do I add a new API endpoint?**
+A: Add a route in `backend/src/routes/`, a controller in `backend/src/controllers/`, a service in `backend/src/services/`, and a validator in `backend/src/validators/`.
+
+**Q: The developer login stopped working?**
+A: Check that `VITE_API_URL` is NOT set to a real backend URL. The dev login intercept happens before the API call.
+
+## Contributing
+
+See `CONTRIBUTING.md` for guidelines.
