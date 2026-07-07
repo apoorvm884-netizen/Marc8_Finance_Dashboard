@@ -1,0 +1,87 @@
+:root {
+  /* Brand Colors - Essence (Blue) */
+  --essence-50: #e8ebfd;
+  --essence-100: #c5cdfa;
+  --essence-200: #9eabf6;
+  --essence-300: #7788f2;
+  --essence-400: #596eee;
+  --essence-500: #183eeb;
+  --essence-600: #1332c4;
+  --essence-700: #0e269d;
+  --essence-800: #091b76;
+  --essence-900: #051050;
+
+  /* Accent (Orange) */
+  --accent-50: #fff0e0;
+  --accent-100: #ffdbb3;
+  --accent-200: #ffc280;
+  --accent-300: #ffa84d;
+  --accent-400: #ff9426;
+  --accent-500: #ff7200;
+  --accent-600: #d96100;
+  --accent-700: #b34f00;
+  --accent-800: #8c3e00;
+  --accent-900: #662d00;
+
+  /* Dark Navy */
+  --dark-navy-50: #e8e8f0;
+  --dark-navy-100: #c5c5d9;
+  --dark-navy-200: #9e9ebe;
+  --dark-navy-300: #7777a3;
+  --dark-navy-400: #595990;
+  --dark-navy-500: #000250;
+  --dark-navy-600: #000245;
+  --dark-navy-700: #00013a;
+  --dark-navy-800: #000130;
+  --dark-navy-900: #000126;
+
+  /* Secondary (Slate) */
+  --secondary-50: #f8fafc;
+  --secondary-100: #f1f5f9;
+  --secondary-200: #e2e8f0;
+  --secondary-300: #cbd5e1;
+  --secondary-400: #94a3b8;
+  --secondary-500: #64748b;
+  --secondary-600: #475569;
+  --secondary-700: #334155;
+  --secondary-800: #1e293b;
+  --secondary-900: #0f172a;
+
+  /* Surface colors */
+  --surface: #0f172a;
+  --surface-light: #1e293b;
+  --surface-lighter: #334155;
+  --background: #000250;
+  --foreground: #f5f2eb;
+
+  /* Semantic */
+  --border: #1e293b;
+  --border-light: #334155;
+  --primary: #183eeb;
+  --primary-foreground: #f5f2eb;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #ff7200;
+  --accent-foreground: #f5f2eb;
+  --destructive: #ef4444;
+  --destructive-foreground: #f5f2eb;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --info: #183eeb;
+  --ring: #ff7200;
+  --radius: 0.5rem;
+
+  /* Financial */
+  --financial-green: #22c55e;
+  --financial-green-light: rgba(34, 197, 94, 0.12);
+  --financial-green-border: rgba(34, 197, 94, 0.25);
+  --financial-red: #ef4444;
+  --financial-red-light: rgba(239, 68, 68, 0.12);
+  --financial-red-border: rgba(239, 68, 68, 0.25);
+  --financial-orange: #ff7200;
+  --financial-orange-light: rgba(255, 114, 0, 0.12);
+  --financial-orange-border: rgba(255, 114, 0, 0.25);
+  --financial-blue: #183eeb;
+  --financial-blue-light: rgba(24, 62, 235, 0.12);
+  --financial-blue-border: rgba(24, 62, 235, 0.25);
+}

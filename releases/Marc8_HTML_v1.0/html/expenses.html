@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../css/brand.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/tables.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/charts.css" />
+  <link rel="stylesheet" href="../css/utilities.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <title>Expenses - Fleet Financial Dashboard</title>
+</head>
+<body data-page="expenses">
+<div class="flex h-screen overflow-hidden bg-background">
+  <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
+  <aside id="sidebar" class="fixed left-0 top-0 z-40 h-screen flex flex-col border-r border-border bg-surface sidebar-expanded">
+    <div class="flex h-16 items-center border-b border-border px-4">
+      <div class="flex items-center gap-3 w-full">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 flex-shrink-0">
+          <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17l-1 4h16l-1-4M5 17h14M5 17l-2-8h18l-2 8M12 4l-2 5h4l-2-5"/><path d="M3 21h18"/></svg>
+        </div>
+        <span id="sidebar-logo-text" class="text-sm font-semibold text-white truncate">Fleet Financial Dashboard</span>
+      </div>
+    </div>
+    <div id="recent-section" class="border-b border-border/50 px-3 py-2">
+      <div class="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-secondary-500">
+        <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Recent</span>
+      </div>
+      <div id="recent-list" class="mt-1 flex flex-col gap-0.5">
+        <span class="flex items-center gap-1 px-1 py-0.5 text-xs text-secondary-500">
+          <svg class="h-3 w-3 text-amber-500/30" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          No recent pages
+        </span>
+      </div>
+    </div>
+    <div class="flex-1 overflow-y-auto p-3 scrollbar-thin">
+      <nav class="flex flex-col gap-4" id="sidebar-nav">
+        <div>
+          <div class="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-secondary-500">Overview</div>
+          <div class="flex flex-col gap-0.5">
+            <a href="dashboard.html" class="sidebar-item" data-nav="Dashboard"><svg class="h-5 w-5 shrink-0 sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span class="flex-1 text-left">Dashboard</span></a>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-secondary-500">Operations</div>
+          <div class="flex flex-col gap-0.5">
+            <a href="bookings.html" class="sidebar-item" data-nav="Bookings"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="flex-1 text-left">Bookings</span></a>
+            <a href="journal-ledger.html" class="sidebar-item" data-nav="Journal Ledger"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span class="flex-1 text-left">Journal Ledger</span></a>
+            <a href="expenses.html" class="sidebar-item active" data-nav="Expenses"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="flex-1 text-left">Expenses</span></a>
+            <a href="settlements.html" class="sidebar-item" data-nav="Settlements"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="flex-1 text-left">Settlements</span></a>
+            <a href="outstandings.html" class="sidebar-item" data-nav="Outstandings"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="flex-1 text-left">Outstandings</span></a>
+            <div class="sidebar-nav-group" data-nav="Fleet">
+              <button class="sidebar-item w-full" onclick="this.parentElement.classList.toggle('expanded'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+                <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17l-1 4h16l-1-4M5 17h14M5 17l-2-8h18l-2 8M12 4l-2 5h4l-2-5"/><path d="M3 21h18"/></svg>
+                <span class="flex-1 text-left">Fleet</span>
+                <svg class="h-4 w-4 chevron transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="overflow-hidden" style="max-height:0; transition: max-height 0.2s;">
+                <div class="flex flex-col gap-0.5">
+                  <a href="fleet-dashboard.html" class="sidebar-item ml-2 pl-8" data-nav="Fleet Dashboard"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>Dashboard</span></a>
+                  <a href="maintenance.html" class="sidebar-item ml-2 pl-8" data-nav="Maintenance"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Maintenance</span></a>
+                  <a href="service-schedules.html" class="sidebar-item ml-2 pl-8" data-nav="Service Schedules"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Service Schedules</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-secondary-500">Workflow</div>
+          <div class="flex flex-col gap-0.5">
+            <a href="operations.html" class="sidebar-item" data-nav="Operations"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="flex-1 text-left">Operations</span></a>
+            <a href="automation.html" class="sidebar-item" data-nav="Automation"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span class="flex-1 text-left">Automation</span></a>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-secondary-500">Intelligence</div>
+          <div class="flex flex-col gap-0.5">
+            <a href="analytics.html" class="sidebar-item" data-nav="Analytics"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="flex-1 text-left">Analytics</span></a>
+            <a href="reports.html" class="sidebar-item" data-nav="Reports"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="flex-1 text-left">Reports</span></a>
+            <a href="notifications.html" class="sidebar-item" data-nav="Notifications"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="flex-1 text-left">Notifications</span></a>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-secondary-500">Administration</div>
+          <div class="flex flex-col gap-0.5">
+            <div class="sidebar-nav-group" data-nav="Masters">
+              <button class="sidebar-item w-full" onclick="this.parentElement.classList.toggle('expanded'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+                <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                <span class="flex-1 text-left">Masters</span>
+                <svg class="h-4 w-4 chevron transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="overflow-hidden" style="max-height:0; transition: max-height 0.2s;">
+                <div class="flex flex-col gap-0.5 pt-1 pl-2">
+                  <a href="customers.html" class="sidebar-item pl-8" data-nav="Customers"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg><span>Customers</span></a>
+                  <a href="vendors.html" class="sidebar-item pl-8" data-nav="Vendors"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Vendors</span></a>
+                  <a href="drivers.html" class="sidebar-item pl-8" data-nav="Drivers"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Drivers</span></a>
+                  <a href="vehicles.html" class="sidebar-item pl-8" data-nav="Vehicles"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg><span>Vehicles</span></a>
+                  <a href="vehicle-owners.html" class="sidebar-item pl-8" data-nav="Vehicle Owners"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Owners</span></a>
+                  <a href="accounts.html" class="sidebar-item pl-8" data-nav="Accounts"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Accounts</span></a>
+                  <a href="platform-masters.html" class="sidebar-item pl-8" data-nav="Platforms"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Platforms</span></a>
+                  <a href="expense-categories.html" class="sidebar-item pl-8" data-nav="Expense Categories"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg><span>Expense Categories</span></a>
+                  <a href="payment-modes.html" class="sidebar-item pl-8" data-nav="Payment Modes"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Payment Modes</span></a>
+                  <a href="journal-categories.html" class="sidebar-item pl-8" data-nav="Journal Categories"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Journal Categories</span></a>
+                  <a href="fuel-types.html" class="sidebar-item pl-8" data-nav="Fuel Types"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="3" x2="15" y2="15"/><path d="M11 4h6l4 4-6 6"/><path d="M14 11l-4 4"/></svg><span>Fuel Types</span></a>
+                  <a href="vehicle-status.html" class="sidebar-item pl-8" data-nav="Vehicle Status"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><span>Vehicle Status</span></a>
+                  <a href="ownership-types.html" class="sidebar-item pl-8" data-nav="Ownership Types"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Ownership Types</span></a>
+                  <a href="transmission-types.html" class="sidebar-item pl-8" data-nav="Transmission Types"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83"/></svg><span>Transmission Types</span></a>
+                  <a href="outstanding-categories.html" class="sidebar-item pl-8" data-nav="Outstanding Categories"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Outstanding Categories</span></a>
+                  <a href="outstanding-priorities.html" class="sidebar-item pl-8" data-nav="Outstanding Priorities"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg><span>Outstanding Priorities</span></a>
+                  <a href="platform-categories.html" class="sidebar-item pl-8" data-nav="Platform Categories"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg><span>Platform Categories</span></a>
+                </div>
+              </div>
+            </div>
+            <a href="settings.html" class="sidebar-item" data-nav="Settings"><svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="flex-1 text-left">Settings</span></a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="border-t border-border p-3">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-sm font-medium text-emerald-400 flex-shrink-0">DU</div>
+        <div class="flex-1 min-w-0"><p class="truncate text-sm font-medium text-white">Demo User</p></div>
+        <button onclick="toggleSidebar()" class="rounded-lg p-1.5 text-secondary-400 hover:bg-surface-light hover:text-white transition-colors"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="main-content-wrapper" class="flex flex-1 flex-col overflow-hidden ml-64 transition-all duration-300">
+    <header class="flex h-16 items-center gap-4 border-b border-border bg-surface/80 px-4 sm:px-6 backdrop-blur-xl">
+      <button onclick="toggleSidebar()" class="rounded-lg p-2 text-secondary-400 hover:bg-surface-light hover:text-white transition-colors"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div class="hidden sm:flex flex-1 flex-col"><nav class="flex items-center gap-2 text-sm text-secondary-400"><span>Pages</span><span>/</span><span class="text-foreground font-medium">Expenses</span></nav></div>
+      <button onclick="openCommandPalette()" class="hidden sm:flex flex-1 items-center gap-2 rounded-lg border border-border bg-surface-light px-3 py-2 text-sm text-secondary-400 hover:border-border-light hover:text-secondary-300 max-w-md transition-colors"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Search anything...</span><kbd class="ml-auto hidden rounded border border-border bg-surface px-1.5 py-0.5 text-xs text-secondary-500 md:inline-block">⌘K</kbd></button>
+      <div class="flex items-center gap-2">
+        <button onclick="openCommandPalette()" class="sm:hidden rounded-lg p-2 text-secondary-400 hover:bg-surface-light hover:text-white"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+        <div class="dropdown">
+          <button class="rounded-lg p-2 text-secondary-400 hover:bg-surface-light hover:text-white transition-colors relative dropdown-toggle" data-dropdown="notifications">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+        </div>
+        <div class="dropdown">
+          <button class="flex items-center gap-2 rounded-lg p-1.5 text-secondary-400 hover:bg-surface-light hover:text-white transition-colors dropdown-toggle" data-dropdown="user-menu">
+            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/10 text-sm font-medium text-emerald-400">DU</div>
+          </button>
+          <div id="user-menu" class="dropdown-content hidden" style="min-width:12rem;top:100%;margin-top:0.5rem;">
+            <button class="dropdown-item" onclick="showToast('Signed out', 'info')"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="flex-1 overflow-y-auto" tabindex="-1">
+      <div class="h-full animate-fade-in">
+        <div class="page-container">
+          <div class="page-header">
+            <div>
+              <h1 class="text-2xl font-bold">Expenses</h1>
+              <p class="text-sm text-muted mt-1">Track and manage all vehicle and operational expenses</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="refreshExpenses()" class="btn btn-outline btn-sm"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Refresh</button>
+              <button onclick="openNewExpenseDrawer()" class="btn btn-primary btn-sm"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Expense</button>
+            </div>
+          </div>
+
+          <div class="action-bar mb-4">
+            <div class="filter-bar">
+              <div style="position:relative;min-width:200px">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="expenseSearch" class="input" style="padding-left:2.25rem" placeholder="Search expenses..." oninput="filterExpenses()" />
+              </div>
+              <div class="select-wrapper" style="min-width:140px">
+                <select id="expenseCategoryFilter" onchange="filterExpenses()"><option value="all">All Categories</option></select>
+              </div>
+              <div class="select-wrapper" style="min-width:140px">
+                <select id="expenseStatusFilter" onchange="filterExpenses()">
+                  <option value="all">All Statuses</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="flagged">Flagged</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-muted">
+              <span id="expenseCount">0</span> expenses
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Invoice</th>
+                    <th>Vehicle</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Vendor</th>
+                    <th>Payment Mode</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="expensesTableBody"></tbody>
+              </table>
+            </div>
+            <div class="px-4">
+              <div class="pagination">
+                <div class="pagination-info" id="expensePaginationInfo"></div>
+                <div class="pagination-buttons" id="expensePaginationButtons"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="command-palette" class="fixed inset-0 z-[200] hidden" style="background:rgba(0,0,0,0.6);">
+  <div class="flex items-start justify-center pt-[15vh] px-4">
+    <div class="w-full max-w-xl bg-surface border border-border rounded-xl shadow-2xl overflow-hidden animate-slide-up">
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-border">
+        <svg class="h-5 w-5 text-secondary-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="command-input" placeholder="Search pages..." class="flex-1 bg-transparent border-none outline-none text-sm text-foreground placeholder-secondary-400" autofocus />
+        <kbd class="text-xs text-secondary-500 border border-border rounded px-1.5 py-0.5">ESC</kbd>
+      </div>
+      <div id="command-results" class="max-h-80 overflow-y-auto p-2"><div class="px-2 py-4 text-center text-sm text-secondary-500">Start typing to search...</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="fixed top-4 right-4 z-[300] flex flex-col gap-2" style="pointer-events:none;"></div>
+
+<script src="../js/data.js"></script>
+<script>
+function formatCurrency(n) { return '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+function showToast(msg, type) {
+  type = type || 'info';
+  var c = document.getElementById('toast-container');
+  var colors = { success: '#22c55e', error: '#ef4444', warning: '#f59e0b', info: '#183eeb' };
+  var t = document.createElement('div');
+  t.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-left:4px solid ' + colors[type] + ';border-radius:0.5rem;padding:0.75rem 1rem;font-size:0.875rem;color:var(--foreground);box-shadow:0 10px 30px rgba(0,0,0,0.3);animation:slideUp 0.3s ease-out;pointer-events:auto;max-width:24rem;';
+  t.textContent = msg; c.appendChild(t);
+  setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(function() { t.remove(); }, 300); }, 3000);
+}
+function toggleSidebar() {
+  var s = document.getElementById('sidebar'), w = document.getElementById('main-content-wrapper');
+  s.classList.toggle('sidebar-expanded'); s.classList.toggle('sidebar-collapsed');
+  w.style.marginLeft = s.classList.contains('sidebar-collapsed') ? '4rem' : '16rem';
+}
+function openCommandPalette() {
+  document.getElementById('command-palette').classList.remove('hidden');
+  document.getElementById('command-input').value = '';
+  document.getElementById('command-results').innerHTML = '<div class="px-2 py-4 text-center text-sm text-secondary-500">Start typing to search...</div>';
+  setTimeout(function() { document.getElementById('command-input').focus(); }, 100);
+}
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCommandPalette(); }
+  if (e.key === 'Escape') { document.getElementById('command-palette').classList.add('hidden'); closeAllDrawers(); }
+});
+document.getElementById('command-palette').addEventListener('click', function(e) { if (e.target === this) this.classList.add('hidden'); });
+document.getElementById('command-input').addEventListener('input', function() {
+  var q = this.value.toLowerCase();
+  var pages = [
+    {name:'Dashboard',url:'dashboard.html',section:'Overview'},{name:'Bookings',url:'bookings.html',section:'Operations'},{name:'Journal Ledger',url:'journal-ledger.html',section:'Operations'},{name:'Expenses',url:'expenses.html',section:'Operations'},{name:'Settlements',url:'settlements.html',section:'Operations'},{name:'Outstandings',url:'outstandings.html',section:'Operations'},{name:'Fleet Dashboard',url:'fleet-dashboard.html',section:'Fleet'},{name:'Maintenance',url:'maintenance.html',section:'Fleet'},{name:'Service Schedules',url:'service-schedules.html',section:'Fleet'},{name:'Operations',url:'operations.html',section:'Workflow'},{name:'Automation',url:'automation.html',section:'Workflow'},{name:'Analytics',url:'analytics.html',section:'Intelligence'},{name:'Reports',url:'reports.html',section:'Intelligence'},{name:'Notifications',url:'notifications.html',section:'Intelligence'},{name:'Customers',url:'customers.html',section:'Masters'},{name:'Vendors',url:'vendors.html',section:'Masters'},{name:'Drivers',url:'drivers.html',section:'Masters'},{name:'Vehicles',url:'vehicles.html',section:'Masters'},{name:'Vehicle Owners',url:'vehicle-owners.html',section:'Masters'},{name:'Accounts',url:'accounts.html',section:'Masters'},{name:'Platforms',url:'platform-masters.html',section:'Masters'},{name:'Expense Categories',url:'expense-categories.html',section:'Masters'},{name:'Payment Modes',url:'payment-modes.html',section:'Masters'},{name:'Settings',url:'settings.html',section:'Administration'}
+  ];
+  var f = q ? pages.filter(function(p) { return p.name.toLowerCase().includes(q) || p.section.toLowerCase().includes(q); }) : [];
+  var c = document.getElementById('command-results');
+  if (!f.length) { c.innerHTML = '<div class="px-2 py-4 text-center text-sm text-secondary-500">' + (q ? 'No results found' : 'Start typing to search...') + '</div>'; return; }
+  c.innerHTML = f.map(function(p) { return '<a href="' + p.url + '" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-foreground hover:bg-surface-light transition-colors"><svg class="h-4 w-4 text-secondary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>' + p.name + '</span><span class="ml-auto text-xs text-secondary-500">' + p.section + '</span></a>'; }).join('');
+});
+document.addEventListener('click', function(e) {
+  var t = e.target.closest('.dropdown-toggle');
+  if (t) { e.preventDefault(); var id = t.getAttribute('data-dropdown'), c = document.getElementById(id); if (c) { var h = c.classList.contains('hidden'); document.querySelectorAll('.dropdown-content').forEach(function(el) { el.classList.add('hidden'); }); if (h) c.classList.remove('hidden'); } return; }
+  if (!e.target.closest('.dropdown-content') && !e.target.closest('.dropdown-toggle')) { document.querySelectorAll('.dropdown-content').forEach(function(el) { el.classList.add('hidden'); }); }
+});
+function closeAllDrawers() {
+  document.querySelectorAll('.drawer-overlay, .modal-overlay').forEach(function(el) { el.remove(); });
+  document.querySelectorAll('.drawer, .modal-content').forEach(function(el) { el.remove(); });
+}
+function openDrawer(title, bodyHtml, footerHtml) {
+  closeAllDrawers();
+  var overlay = document.createElement('div'); overlay.className = 'drawer-overlay'; overlay.onclick = closeAllDrawers; document.body.appendChild(overlay);
+  var drawer = document.createElement('div'); drawer.className = 'drawer';
+  drawer.innerHTML = '<div class="drawer-header"><h3 class="text-lg font-semibold text-white">' + title + '</h3><button onclick="closeAllDrawers()" class="modal-close"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="drawer-body">' + bodyHtml + '</div><div class="drawer-footer">' + footerHtml + '</div>';
+  document.body.appendChild(drawer);
+}
+function showConfirm(title, message, onConfirm) {
+  closeAllDrawers();
+  var overlay = document.createElement('div'); overlay.className = 'modal-overlay'; overlay.onclick = closeAllDrawers; document.body.appendChild(overlay);
+  var modal = document.createElement('div'); modal.className = 'modal-content';
+  modal.innerHTML = '<div class="modal-body"><div class="confirm-dialog"><div class="confirm-dialog-icon destructive"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h3 class="text-lg font-semibold mb-2">' + title + '</h3><p class="text-sm text-muted">' + message + '</p></div></div><div class="modal-footer"><button onclick="closeAllDrawers()" class="btn btn-outline btn-sm">Cancel</button><button onclick="closeAllDrawers();' + onConfirm + '" class="btn btn-primary btn-sm" style="background:var(--destructive);">Delete</button></div>';
+  document.body.appendChild(modal);
+}
+function statusBadge(status) {
+  var map = { approved: 'badge-success', pending: 'badge-warning', rejected: 'badge-destructive', flagged: 'badge-info' };
+  return '<span class="badge ' + (map[status] || 'badge-secondary') + '">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span>';
+}
+
+var expenses = [];
+var currentPage = 1;
+var pageSize = 10;
+
+function loadExpenses() {
+  expenses = DATA.getExpenses();
+  var catFilter = document.getElementById('expenseCategoryFilter');
+  if (catFilter.options.length <= 1) {
+    var cats = {};
+    expenses.forEach(function(e) { cats[e.category_name] = true; });
+    Object.keys(cats).sort().forEach(function(c) {
+      var opt = document.createElement('option'); opt.value = c; opt.textContent = c;
+      catFilter.appendChild(opt);
+    });
+  }
+  filterExpenses();
+}
+
+function filterExpenses() {
+  var search = document.getElementById('expenseSearch').value.toLowerCase();
+  var cat = document.getElementById('expenseCategoryFilter').value;
+  var status = document.getElementById('expenseStatusFilter').value;
+  var filtered = expenses.filter(function(e) {
+    if (cat !== 'all' && e.category_name !== cat) return false;
+    if (status !== 'all' && e.status !== status) return false;
+    if (search && !e.invoice_number.toLowerCase().includes(search) && !e.vehicle_number.toLowerCase().includes(search) && !e.vendor.toLowerCase().includes(search) && !e.category_name.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  renderExpensesTable(filtered);
+}
+
+function renderExpensesTable(data) {
+  currentPage = 1;
+  var totalPages = Math.ceil(data.length / pageSize) || 1;
+  var start = (currentPage - 1) * pageSize;
+  var end = start + pageSize;
+  var pageData = data.slice(start, end);
+
+  var body = document.getElementById('expensesTableBody');
+  if (!pageData.length) {
+    body.innerHTML = '<tr><td colspan="8" class="table-empty"><div class="table-empty-icon"><svg class="h-10 w-10 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="table-empty-text">No expenses found</div></td></tr>';
+  } else {
+    body.innerHTML = pageData.map(function(e) {
+      return '<tr><td class="font-medium">' + e.invoice_number + '</td><td>' + e.vehicle_number + '<div class="text-xs text-muted">' + e.vehicle_name + '</div></td><td>' + e.category_name + '</td><td class="font-medium text-red-400">' + formatCurrency(e.amount) + '</td><td>' + e.vendor + '</td><td>' + e.payment_mode_name + '</td><td>' + statusBadge(e.status) + '</td><td><div class="flex items-center gap-1"><button onclick="viewExpense(\'' + e.id + '\')" class="btn btn-ghost btn-sm btn-icon" title="View"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><button onclick="editExpense(\'' + e.id + '\')" class="btn btn-ghost btn-sm btn-icon" title="Edit"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button onclick="deleteExpense(\'' + e.id + '\')" class="btn btn-ghost btn-sm btn-icon" title="Delete" style="color:var(--destructive)"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div></td></tr>';
+    }).join('');
+  }
+
+  document.getElementById('expenseCount').textContent = data.length;
+  document.getElementById('expensePaginationInfo').textContent = 'Showing ' + data.length + ' of ' + expenses.length + ' expenses';
+  renderPagination(totalPages, data);
+}
+
+function renderPagination(totalPages, data) {
+  var container = document.getElementById('expensePaginationButtons');
+  var html = '';
+  html += '<button class="pagination-btn" onclick="goToPage(' + (currentPage - 1) + ',' + data.length + ')" ' + (currentPage <= 1 ? 'disabled' : '') + '><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>';
+  for (var i = 1; i <= totalPages; i++) {
+    html += '<button class="pagination-btn ' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ',' + data.length + ')">' + i + '</button>';
+  }
+  html += '<button class="pagination-btn" onclick="goToPage(' + (currentPage + 1) + ',' + data.length + ')" ' + (currentPage >= totalPages ? 'disabled' : '') + '><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>';
+  container.innerHTML = html;
+}
+
+function goToPage(page, total) {
+  var totalPages = Math.ceil(total / pageSize) || 1;
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  filterExpenses();
+}
+
+function refreshExpenses() {
+  CACHE.delete('expenses');
+  loadExpenses();
+  showToast('Expenses refreshed', 'success');
+}
+
+function viewExpense(id) {
+  var e = expenses.find(function(x) { return x.id === id; });
+  if (!e) return;
+  var body = '<div class="space-y-3"><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Invoice</span><span class="text-sm font-medium">' + e.invoice_number + '</span></div><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Vehicle</span><span class="text-sm font-medium">' + e.vehicle_number + ' (' + e.vehicle_name + ')</span></div><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Category</span><span class="text-sm font-medium">' + e.category_name + '</span></div><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Amount</span><span class="text-sm font-medium text-red-400">' + formatCurrency(e.amount) + '</span></div><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Vendor</span><span class="text-sm font-medium">' + e.vendor + '</span></div><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Payment Mode</span><span class="text-sm font-medium">' + e.payment_mode_name + '</span></div><div class="flex justify-between py-2 border-b border-border"><span class="text-sm text-muted">Description</span><span class="text-sm font-medium">' + e.description + '</span></div><div class="flex justify-between py-2"><span class="text-sm text-muted">Status</span><span class="text-sm">' + statusBadge(e.status) + '</span></div></div>';
+  openDrawer('Expense Details - ' + e.invoice_number, body, '<button onclick="closeAllDrawers()" class="btn btn-outline btn-sm">Close</button>');
+}
+
+function editExpense(id) {
+  var e = expenses.find(function(x) { return x.id === id; });
+  if (e) openNewExpenseDrawer(e);
+}
+
+function deleteExpense(id) {
+  var e = expenses.find(function(x) { return x.id === id; });
+  showConfirm('Delete Expense', 'Are you sure you want to delete expense ' + (e ? e.invoice_number : '') + '?', 'confirmDeleteExpense(\'' + id + '\')');
+}
+
+function confirmDeleteExpense(id) {
+  expenses = expenses.filter(function(x) { return x.id !== id; });
+  filterExpenses();
+  showToast('Expense deleted', 'success');
+}
+
+function openNewExpenseDrawer(editData) {
+  var isEdit = !!editData;
+  var vehicles = DATA.getVehicles();
+  var vendors = DATA.getVendors();
+  var cats = DATA.getMasterData().expense_categories;
+  var payModes = DATA.getMasterData().payment_modes;
+  var vehicleOpts = vehicles.map(function(v) { return '<option value="' + v.id + '" ' + (isEdit && editData.vehicle_id === v.id ? 'selected' : '') + '>' + v.vehicle_number + '</option>'; }).join('');
+  var vendorOpts = vendors.map(function(v) { return '<option value="' + v.name + '" ' + (isEdit && editData.vendor === v.name ? 'selected' : '') + '>' + v.name + '</option>'; }).join('');
+  var catOpts = cats.map(function(c) { return '<option value="' + c.name + '" ' + (isEdit && editData.category_name === c.name ? 'selected' : '') + '>' + c.name + '</option>'; }).join('');
+  var payOpts = payModes.map(function(p) { return '<option value="' + p.name + '" ' + (isEdit && editData.payment_mode_name === p.name ? 'selected' : '') + '>' + p.name + '</option>'; }).join('');
+  var body = '<form id="expenseForm" onsubmit="return saveExpense(event)">' +
+    '<div class="form-group"><label class="input-label">Vehicle</label><div class="select-wrapper"><select name="vehicle_id" required>' + vehicleOpts + '</select></div></div>' +
+    '<div class="form-group"><label class="input-label">Category</label><div class="select-wrapper"><select name="category_name" required>' + catOpts + '</select></div></div>' +
+    '<div class="form-group"><label class="input-label">Vendor</label><div class="select-wrapper"><select name="vendor" required>' + vendorOpts + '</select></div></div>' +
+    '<div class="form-group"><label class="input-label">Payment Mode</label><div class="select-wrapper"><select name="payment_mode_name" required>' + payOpts + '</select></div></div>' +
+    '<div class="form-group"><label class="input-label">Amount</label><input type="number" name="amount" class="input" value="' + (isEdit ? editData.amount : '') + '" required /></div>' +
+    '<div class="form-group"><label class="input-label">Description</label><input type="text" name="description" class="input" value="' + (isEdit ? editData.description : '') + '" required /></div>' +
+    '<div class="form-group"><label class="input-label">Status</label><div class="select-wrapper"><select name="status">' +
+    '<option value="approved" ' + (isEdit && editData.status === 'approved' ? 'selected' : '') + '>Approved</option>' +
+    '<option value="pending" ' + (isEdit && editData.status === 'pending' ? 'selected' : '') + '>Pending</option>' +
+    '<option value="rejected" ' + (isEdit && editData.status === 'rejected' ? 'selected' : '') + '>Rejected</option>' +
+    '<option value="flagged" ' + (isEdit && editData.status === 'flagged' ? 'selected' : '') + '>Flagged</option>' +
+    '</select></div></div>' +
+    (isEdit ? '<input type="hidden" name="edit_id" value="' + editData.id + '" />' : '') +
+    '</form>';
+  var footer = '<button onclick="closeAllDrawers()" class="btn btn-outline btn-sm">Cancel</button><button onclick="document.getElementById(\'expenseForm\').requestSubmit()" class="btn btn-primary btn-sm">' + (isEdit ? 'Update' : 'Create') + ' Expense</button>';
+  openDrawer(isEdit ? 'Edit Expense' : 'New Expense', body, footer);
+}
+
+function saveExpense(e) {
+  e.preventDefault();
+  var form = document.getElementById('expenseForm');
+  var fd = new FormData(form);
+  var editId = fd.get('edit_id');
+  var data = {
+    vehicle_id: fd.get('vehicle_id'),
+    category_name: fd.get('category_name'),
+    vendor: fd.get('vendor'),
+    payment_mode_name: fd.get('payment_mode_name'),
+    amount: parseFloat(fd.get('amount')),
+    description: fd.get('description'),
+    status: fd.get('status'),
+  };
+  if (editId) {
+    var idx = expenses.findIndex(function(x) { return x.id === editId; });
+    if (idx >= 0) { Object.assign(expenses[idx], data); }
+    showToast('Expense updated', 'success');
+  } else {
+    var veh = DATA.getVehicles().find(function(v) { return v.id === data.vehicle_id; });
+    data.id = 'e' + (expenses.length + 1);
+    data.vehicle_number = veh ? veh.vehicle_number : '';
+    data.vehicle_name = veh ? veh.brand + ' ' + veh.model : '';
+    data.invoice_number = 'INV-' + String(Math.floor(Math.random() * 9000) + 1000);
+    data.created_at = new Date().toISOString();
+    expenses.push(data);
+    showToast('Expense created', 'success');
+  }
+  closeAllDrawers();
+  filterExpenses();
+  return false;
+}
+
+document.addEventListener('DOMContentLoaded', function() { loadExpenses(); });
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>
