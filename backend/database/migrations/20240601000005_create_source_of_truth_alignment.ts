@@ -136,44 +136,34 @@ export async function up(knex: Knex): Promise<void> {
     }
   }
 
-  // 5d. Platform — add 'Offline' platform
+  // 5d. Platform — ensure all BRD platforms exist
   const platformMt = await knex('master_types').where({ code: 'platform' }).first();
-  if (platformMt) {
-    const existingOffline = await knex('master_values')
-      .where({ master_type_id: platformMt.id, code: 'offline' })
-      .first();
-    if (!existingOffline) {
-      await knex('master_values').insert({
-        master_type_id: platformMt.id,
-        code: 'offline',
-        name: 'Offline',
-        description: 'Offline / cash booking channel',
-        display_order: 10,
-        color: '#64748b',
-        is_system: true,
-        is_active: true,
-      });
-    }
-  } else {
-    // Create platform master type if missing
+  let platformId = platformMt?.id;
+  if (!platformId) {
     await knex('master_types').insert({
       code: 'platform',
       name: 'Platforms',
-      description: 'Booking platforms',
+      description: 'Booking platforms where vehicles are listed',
       is_active: true,
     });
     const mt = await knex('master_types').where({ code: 'platform' }).first();
-    if (mt) {
-      const platforms = [
-        { code: 'zoomcar', name: 'Zoomcar', display_order: 1, color: '#3b82f6' },
-        { code: 'revv', name: 'Revv', display_order: 2, color: '#22c55e' },
-        { code: 'bharat', name: 'Bharat', display_order: 3, color: '#f97316' },
-        { code: 'marc8', name: 'Marc8', display_order: 4, color: '#8b5cf6' },
-        { code: 'offline', name: 'Offline', display_order: 10, color: '#64748b' },
-      ];
-      for (const p of platforms) {
+    platformId = mt?.id;
+  }
+  if (platformId) {
+    const platforms = [
+      { code: 'zoomcar', name: 'Zoomcar', display_order: 1, color: '#3b82f6' },
+      { code: 'revv', name: 'Revv', display_order: 2, color: '#22c55e' },
+      { code: 'bharat', name: 'Bharat', display_order: 3, color: '#f97316' },
+      { code: 'marc8', name: 'Marc8', display_order: 4, color: '#8b5cf6' },
+      { code: 'offline', name: 'Offline', display_order: 10, color: '#64748b' },
+    ];
+    for (const p of platforms) {
+      const existing = await knex('master_values')
+        .where({ master_type_id: platformId, code: p.code })
+        .first();
+      if (!existing) {
         await knex('master_values').insert({
-          master_type_id: mt.id,
+          master_type_id: platformId,
           ...p,
           is_system: true,
           is_active: true,
@@ -249,5 +239,5 @@ export async function down(knex: Knex): Promise<void> {
   ]);
   await cleanMaster('payment_mode', ['cash', 'upi', 'corporate_card', 'fleet_fuel_card']);
   await cleanMaster('journal_category', ['fastag', 'fuel', 'instances', 'washing', 'damage']);
-  await cleanMaster('platform', ['offline']);
+  await cleanMaster('platform', ['zoomcar', 'revv', 'bharat', 'marc8', 'offline']);
 }
